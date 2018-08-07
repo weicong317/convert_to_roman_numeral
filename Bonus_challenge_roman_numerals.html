@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Challenge</title>
+</head>
+<body>
+	<h1>Double Bonus Challenge: Roman Numerals</h1>
+	<hr>
+	<script>
+		let ans = "";
+		let ansNum = 0;
+		let arrTotal = [];
+		let arrSingle = [];
+		let arrTenth = [];
+		let arrHundred = [];
+		let arrThousand = [];
+		let output = "";
+
+		// initial a function named click
+		function click() {
+			// ask user for input number
+			ans = prompt("Key in the number", "Number Please (Max 4 digits");
+			// make the input become integer if possible as any input from prompt is string
+			ansNum = Number(ans);
+			if (isNaN(ansNum)) {
+				document.write("I asked for a number, not gibberish!")			
+			}
+			let arrTemporary = [];
+			// check the length of input
+			switch (ans.length) {
+				// depend on length, make the arrTemporary to have 4 elements, if not enough 4, add 0 in front
+				case 4:
+					for (let i = 3; i >= 0; i--) {
+						if (ans[i] !== undefined) {
+							arrTemporary[i] = Number(ans[i]);
+						}
+					}
+					break;
+				case 3:
+					for (let i = 2; i >= 0; i--) {
+						if (ans[i] !== undefined) {
+							arrTemporary[i] = Number(ans[i]);
+						}
+					}
+					arrTemporary.unshift(0);
+					break;
+				case 2:
+					for (let i = 1; i >= 0; i--) {
+						if (ans[i] !== undefined) {
+							arrTemporary[i] = Number(ans[i]);
+						}
+					}
+					arrTemporary.unshift(0, 0);
+					break;
+				case 1:
+					arrTemporary[0] = Number(ans[0]);
+					arrTemporary.unshift(0, 0, 0);
+					break;
+			}
+			// just to log to see the value
+			console.log(arrTemporary);
+			// converting the integer to roman numeral
+			single(arrTemporary[3]);
+			tenthDigit(arrTemporary[2]);
+			hundredDigit(arrTemporary[1]);
+			thousandDigit(arrTemporary[0]);
+			// joining all the array together
+			arrTotal = arrThousand.concat(arrHundred, arrTenth, arrSingle);
+			// make the array become 1 string
+			output = arrTotal.join("");
+		}
+		
+		// logic to change the integer to roman numeral, same goes to all digits
+		function single(value) {
+			if (value === 0 || isNaN(ansNum)) {
+				return;
+			} else if (value < 4) {
+				arrSingle.unshift("I");
+				value -= 1;
+				return single(value);
+			} else if (value < 9) {
+				arrSingle.unshift("V");
+				if (value === 4) {
+					arrSingle.unshift("I");
+				} else if (value > 5) {
+					let temporary = value - 5;
+					for (let i = 1; i <= temporary; temporary--) {
+						arrSingle.push("I");
+					}
+				}
+			} else if (value === 9) {
+				arrSingle.unshift("IX");
+			}
+		}
+		
+		function tenthDigit(value) {
+			if (value === 0 || isNaN(ansNum)) {
+				return;
+			} else if (value < 4) {
+				arrTenth.unshift("X");
+				value -= 1;
+				return tenthDigit(value);
+			} else if (value < 9) {
+				arrTenth.unshift("L");
+				if (value === 4) {
+					arrTenth.unshift("X");
+				} else if (value > 5) {
+					let temporary = value - 5;
+					for (let i = 1; i <= temporary; temporary--) {
+						arrTenth.push("X");
+					}
+				}
+			} else if (value === 9) {
+				arrTenth.unshift("XC");
+			}
+		}
+		
+		function hundredDigit(value) {
+			if (value === 0 || isNaN(ansNum)) {
+				return;
+			} else if (value < 4) {
+				arrHundred.unshift("C");
+				value -= 1;
+				return hundredDigit(value);
+			} else if (value < 9) {
+				arrHundred.unshift("D");
+				if (value === 4) {
+					arrHundred.unshift("C");
+				} else if (value > 5) {
+					let temporary = value - 5;
+					for (let i = 1; i <= temporary; temporary--) {
+						arrHundred.push("C");
+					}
+				}
+			} else if (value === 9) {
+				arrHundred.unshift("CM");
+			}
+		}
+		
+		function thousandDigit(value) {
+			if (value === 0 || isNaN(ansNum)) {
+				return;
+			} else if (value < 4) {
+				arrThousand.unshift("M");
+				value -= 1;
+				return thousandDigit(value);
+			} else if (value < 9) {
+				arrThousand.unshift("V");
+				if (value === 4) {
+					arrThousand.unshift("M");
+				} else if (value > 5) {
+					let temporary = value - 5;
+					for (let i = 1; i <= temporary; temporary--) {
+						arrThousand.push("M");
+					}
+				}
+			} else if (value === 9) {
+				arrThousand.unshift("M_X");
+			}
+		}
+		
+		// run the function once the page is loaded
+		click();
+		// print out the value
+		document.write(`The number given ${ansNum} in Roman numerals is ${output}.`);
+	</script>
+</body>
+</html>
